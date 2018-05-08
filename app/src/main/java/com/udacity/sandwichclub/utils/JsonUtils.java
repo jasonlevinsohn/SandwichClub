@@ -19,6 +19,7 @@ public class JsonUtils {
         String name;
         List<String> alsoKnownAs = null;
         JSONArray akaJSONList;
+        JSONArray ingredientsJSONList;
         String placeOfOrigin;
         String description;
         String image;
@@ -31,9 +32,12 @@ public class JsonUtils {
             name = nameObject.getString("mainName");
             image = sandwich.getString("image");
             placeOfOrigin = sandwich.getString("placeOfOrigin");
+            description = sandwich.getString("description");
 
             akaJSONList = nameObject.getJSONArray("alsoKnownAs");
+            ingredientsJSONList = sandwich.getJSONArray("ingredients");
 
+            // Get Also Known As List
             if (akaJSONList != null) {
                 alsoKnownAs = new ArrayList<>();
 
@@ -47,9 +51,27 @@ public class JsonUtils {
                 mySandwich.setAlsoKnownAs(alsoKnownAs);
             }
 
+            // Get Ingredients List
+            if (ingredientsJSONList != null) {
+                ingredients = new ArrayList<>();
+
+                for (int j = 0; j < ingredientsJSONList.length(); j++) {
+                    String ingredient = ingredientsJSONList.getString(j);
+                    if (j > 0) {
+                        ingredients.add("\n");
+                    }
+                    ingredients.add(ingredient);
+                }
+
+                mySandwich.setIngredients(ingredients);
+            }
+
+
+
             mySandwich.setMainName(name);
             mySandwich.setImage(image);
             mySandwich.setPlaceOfOrigin(placeOfOrigin);
+            mySandwich.setDescription(description);
 
         } catch(JSONException e) {
             e.printStackTrace();

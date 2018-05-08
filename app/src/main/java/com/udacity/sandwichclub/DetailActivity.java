@@ -18,6 +18,8 @@ public class DetailActivity extends AppCompatActivity {
 
     TextView mPlaceOfOriginTextView;
     TextView mAlsoKnownAsTextView;
+    TextView mIngredientsTextView;
+    TextView mDescriptionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class DetailActivity extends AppCompatActivity {
         ImageView ingredientsIv = findViewById(R.id.image_iv);
         mPlaceOfOriginTextView = findViewById(R.id.origin_tv);
         mAlsoKnownAsTextView = findViewById(R.id.also_known_as_tv);
+        mIngredientsTextView = findViewById(R.id.ingredients_tv);
+        mDescriptionTextView = findViewById(R.id.description_tv);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -50,10 +54,10 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         populateUI(sandwich);
-        ingredientsIv.setImageResource(R.mipmap.ic_launcher);
-//        Picasso.with(this)
-//            .load(sandwich.getImage())
-//            .into(ingredientsIv);
+//        ingredientsIv.setImageResource(R.mipmap.ic_launcher);
+        Picasso.with(this)
+            .load(sandwich.getImage())
+            .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
     }
@@ -65,10 +69,18 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
         mPlaceOfOriginTextView.setText(sandwich.getPlaceOfOrigin());
+        mDescriptionTextView.setText(sandwich.getDescription());
         if (sandwich.getAlsoKnownAs() != null) {
             for ( String aka : sandwich.getAlsoKnownAs()) {
                 if (aka != null && !aka.equals("")) {
                     mAlsoKnownAsTextView.append(aka);
+                }
+            }
+        }
+        if (sandwich.getIngredients() != null) {
+            for ( String ingredient : sandwich.getIngredients()) {
+                if (ingredient != null && !ingredient.equals("")) {
+                    mIngredientsTextView.append(ingredient);
                 }
             }
         }
